@@ -14,7 +14,7 @@ public class Button {
   }
 
   public void draw() { 
-    size = text.length() * 5;
+    size = text.length() * 7;
     if (mode == 0) {
       if (mouseX > x-size && mouseX < x+size && mouseY > y-10 && mouseY < y+20) {
         //    if (dist(x, y, mouseX, mouseY) < size) {

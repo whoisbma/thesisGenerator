@@ -4,6 +4,20 @@ void keyPressed() {
     if (key == '\n') {
       linkingWord = typing;
       typing = "";
+      if ( oldWords[0] != null ) {
+        String[] newWords = new String[oldWords.length+1];
+        for (int i = 0; i < oldWords.length; i++) {
+          newWords[i] = oldWords[i];
+        }
+        //        arrayCopy(oldWords, newWords, oldWords.length);
+        newWords[newWords.length-1] = linkingWord;
+        oldWords = newWords;//new String[newWords.length];
+        arrayCopy(newWords, oldWords);
+        saveStrings("data/NEWWORDS.txt", newWords);
+      } else {
+        oldWords[0] = linkingWord;
+        println(oldWords[0]);
+      }
     } else if (int(key) == 8) {
       if (typing != "") {
         String newString = typing.substring(0, max(0, typing.length()-1));
@@ -45,7 +59,7 @@ void mousePressed() {
       }
     }
     if (addNode.visible && addNode.isPressed()) {           
-      tintColor = color(random(100, 200), random(100, 200), random(100, 200), 200);
+      tintColor = color(random(150, 240), random(150, 240), random(150, 240), 200);
       Node newNode = new Node(linkingWord);
       for (Node otherNode : nodes) {    //make sure the node doesn't already exist
         if (otherNode.text == newNode.text) {      
@@ -85,6 +99,9 @@ void mousePressed() {
     if (showMap.isPressed()) {
       mode = 0;
       showMap.text = "map";
+    }
+    if (saveMap.isPressed()) {
+      record = true;
     }
   }
 }

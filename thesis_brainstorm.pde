@@ -20,11 +20,14 @@ String linkingWord = "";
 int currentLink = 0; 
 int whichText = 1; 
 
+String[] oldWords;;
+
 ArrayList<Node> nodes; 
 
 float dragY;
 float dragX;
 boolean drag = false;
+boolean record = false;
 
 boolean repeatedNode = false; 
 
@@ -58,6 +61,8 @@ void setup() {
   interfaces = new ArrayList<String>(); 
   dataSources = new ArrayList<String>(); 
 
+  oldWords = loadStrings("NEWWORDS.txt");
+
   showMap = new Button("map", 1000, 540);
   loadNewPhrase = new Button("start", 1150, 540);
   addNode = new Button("add node: ", 120, 540);
@@ -74,10 +79,14 @@ void setup() {
 
   nodes = new ArrayList<Node>(); 
 
-  font = loadFont("Cousine-30.vlw");
-  fontS = loadFont("Cousine-16.vlw");
-  fontXS = loadFont("Cousine-12.vlw"); 
-  fontL = loadFont("Cousine-40.vlw");
+  //  font = loadFont("Cousine-30.vlw");
+  //  fontS = loadFont("Cousine-16.vlw");
+  //  fontXS = loadFont("Cousine-12.vlw"); 
+  //  fontL = loadFont("Cousine-40.vlw");
+  font = createFont("Cousine-Regular.ttf", 30);
+  fontS = createFont("Cousine-Regular.ttf", 16);
+  fontXS = createFont("Cousine-Regular.ttf", 12); 
+  fontL = createFont("Cousine-Regular.ttf", 40);
 
   noSmooth();
   for (int i = 0; i < currentMix.length; i++) {
@@ -97,6 +106,7 @@ void draw() {
   if (mode == 0) {
     drawMain();
   } else if (mode == 1) {
+
     drawMap();
   }
 }
@@ -112,7 +122,7 @@ void drawMain() {
   }
 
   tint(tintColor);
-  image(fade, .1, .5, width, height);
+  image(fade, 0, 1, width, height);
   textFont(font);
   fill(255, 50);
   textAlign(LEFT, CENTER);
@@ -140,7 +150,7 @@ void drawMain() {
 
   textAlign(LEFT, CENTER);
   textFont(font);
-  fill(255,100);
+  fill(255, 100);
   text("type: ", 30, 495);
   fill(255);
   text(typing, 125, 495);
@@ -149,8 +159,10 @@ void drawMain() {
 void drawMap() {
   if (mode == 1) {
     background(250);
-    saveMap.draw();
     saveMap.visible = true;
+    if (record) {
+      beginRecord(PDF, "frame-####.pdf");
+    }
   } else {
     background(10);
     saveMap.visible = false;
@@ -166,10 +178,16 @@ void drawMap() {
     node.display();
   }
   popMatrix();
+  if (record) {
+    record = false;
+    endRecord();
+  }
   textAlign(CENTER);
   textFont(font);
   showMap.draw();
-
+  if (saveMap.visible) {
+    saveMap.draw();
+  }
   drag = false;
 } 
 

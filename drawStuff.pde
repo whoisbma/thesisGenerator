@@ -10,8 +10,8 @@ void drawSentence() {
   fill(255);
   switch (whichText) {
   case 0 : 
-    text(currentMix[5] + " " + currentMix[6] + " expressing the "  + "\n" +
-      currentMix[4] + " " + currentMix[1] + " of "  + "\n"
+    text(currentMix[5] + " " + currentMix[6] + " expressing the "  + "\n " +
+      currentMix[4] + " " + currentMix[1] + " of "  + "\n "
       + currentMix[2] + " with " + currentMix[0], 60, 70); 
     break;
   case 1 : 
@@ -21,7 +21,7 @@ void drawSentence() {
     text(currentMix[2] + " that serves to " + currentMix[3] + " " + currentMix[1], 60, 70); 
     break;
   case 3 : 
-    text(currentMix[3] + " " + currentMix[0] + " by searching " + currentMix[7], 60, 70); 
+    text(currentMix[3] + " " + currentMix[0] + " by searching " + "\n " + currentMix[7], 60, 70); 
     break;
   case 4 : 
     text(currentMix[6] + " made of " + currentMix[4] + " " + currentMix[0], 60, 70); 
