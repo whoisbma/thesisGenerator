@@ -10,8 +10,8 @@ void drawSentence() {
   fill(255);
   switch (whichText) {
   case 0 : 
-    text(currentMix[5] + " " + currentMix[6] + " expressing the " +
-      currentMix[4] + "\n" + " " + currentMix[1] + " of " 
+    text(currentMix[5] + " " + currentMix[6] + " expressing the "  + "\n" +
+      currentMix[4] + " " + currentMix[1] + " of "  + "\n"
       + currentMix[2] + " with " + currentMix[0], 60, 70); 
     break;
   case 1 : 

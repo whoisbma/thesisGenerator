@@ -140,8 +140,10 @@ void drawMain() {
 
   textAlign(LEFT, CENTER);
   textFont(font);
+  fill(255,100);
+  text("type: ", 30, 495);
   fill(255);
-  text(typing, 130, 550);
+  text(typing, 125, 495);
 }
 
 void drawMap() {
