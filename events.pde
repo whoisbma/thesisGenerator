@@ -4,15 +4,13 @@ void keyPressed() {
     if (key == '\n') {
       linkingWord = typing;
       typing = "";
-      if ( oldWords[0] != null ) {
+      if ( oldWords != null ) {
         String[] newWords = new String[oldWords.length+1];
         for (int i = 0; i < oldWords.length; i++) {
           newWords[i] = oldWords[i];
         }
-        //        arrayCopy(oldWords, newWords, oldWords.length);
         newWords[newWords.length-1] = linkingWord;
-        oldWords = newWords;//new String[newWords.length];
-        arrayCopy(newWords, oldWords);
+        oldWords = newWords;
         saveStrings("data/NEWWORDS.txt", newWords);
       } else {
         oldWords[0] = linkingWord;

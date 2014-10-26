@@ -4,6 +4,7 @@
 //click on keywords near bottom of screen then press "add node" to save keyword as node
 //alternatively, write with keyboard, press enter, then "add node" to save as node
 //clicking on "another" generates new phrase
+//use the arrow keys (up and down) to select existing node for connections
 
 import processing.pdf.*;
 
@@ -20,7 +21,7 @@ String linkingWord = "";
 int currentLink = 0; 
 int whichText = 1; 
 
-String[] oldWords;;
+String[] oldWords;
 
 ArrayList<Node> nodes; 
 
@@ -52,6 +53,8 @@ color tintColor = color(200, 159, 50, 230);
 
 int mode = 0;
 
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 void setup() {
   size(1250, 600);//, P3D);
   background(10); 
@@ -62,6 +65,7 @@ void setup() {
   dataSources = new ArrayList<String>(); 
 
   oldWords = loadStrings("NEWWORDS.txt");
+  
 
   showMap = new Button("map", 1000, 540);
   loadNewPhrase = new Button("start", 1150, 540);
@@ -79,10 +83,6 @@ void setup() {
 
   nodes = new ArrayList<Node>(); 
 
-  //  font = loadFont("Cousine-30.vlw");
-  //  fontS = loadFont("Cousine-16.vlw");
-  //  fontXS = loadFont("Cousine-12.vlw"); 
-  //  fontL = loadFont("Cousine-40.vlw");
   font = createFont("Cousine-Regular.ttf", 30);
   fontS = createFont("Cousine-Regular.ttf", 16);
   fontXS = createFont("Cousine-Regular.ttf", 12); 
@@ -100,17 +100,18 @@ void setup() {
   rHeight = height * rHeightMod;
   fade = get(0, 0, width, height);
 }
-
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 void draw() {
   background(10);
   if (mode == 0) {
     drawMain();
   } else if (mode == 1) {
-
     drawMap();
   }
 }
-
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 void drawMain() {
   drawMap();
   if (nodes.size() > 0) {
@@ -155,7 +156,8 @@ void drawMain() {
   fill(255);
   text(typing, 125, 495);
 }
-
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 void drawMap() {
   if (mode == 1) {
     background(250);
