@@ -1,5 +1,5 @@
 void loadFromAll() {
-  reader = createReader("nouns.txt"); 
+  reader = createReader("data/nouns.txt"); 
   try {
     while ( (loadLine = reader.readLine ()) != null) {
       nouns.add(loadLine);
@@ -9,7 +9,7 @@ void loadFromAll() {
     e.printStackTrace();
   }
 
-  reader = createReader("adjectives.txt"); 
+  reader = createReader("data/adjectives.txt"); 
   try {
     while ( (loadLine = reader.readLine ()) != null) {
       adjectives.add(loadLine);
@@ -19,7 +19,7 @@ void loadFromAll() {
     e.printStackTrace();
   }
 
-  reader = createReader("verbs.txt"); 
+  reader = createReader("data/verbs.txt"); 
   try {
     while ( (loadLine = reader.readLine ()) != null) {
       verbs.add(loadLine);
@@ -29,7 +29,7 @@ void loadFromAll() {
     e.printStackTrace();
   }
 
-  reader = createReader("interfaces.txt"); 
+  reader = createReader("data/interfaces.txt"); 
   try {
     while ( (loadLine = reader.readLine ()) != null) {
       interfaces.add(loadLine);
@@ -39,7 +39,7 @@ void loadFromAll() {
     e.printStackTrace();
   }
 
-  reader = createReader("dataSources.txt"); 
+  reader = createReader("data/dataSources.txt"); 
   try {
     while ( (loadLine = reader.readLine ()) != null) {
       dataSources.add(loadLine);
