@@ -33,7 +33,7 @@ public class Node {
       for (Node childNode : nodeNodes) {
         if (otherNode == childNode) {
           if (mode == 0) {
-            stroke(255);
+            stroke(255,100);
           } else {
             stroke(0, 60);
           }
@@ -47,7 +47,7 @@ public class Node {
   public void display() {
     //ellipse(pos.x,pos.y,r,r);
     if (mode == 0) {
-      fill(255);
+      fill(255,100);
     } else {
       fill(0);
     }

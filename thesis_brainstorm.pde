@@ -122,8 +122,8 @@ void drawMain() {
     text(nodes.get(currentLink).text, width/2, height/2);
   }
 
-  tint(tintColor);
-  image(fade, 0, 1, width, height);
+//  tint(tintColor);
+//  image(fade, 0, 1, width, height);
   textFont(font);
   fill(255, 50);
   textAlign(LEFT, CENTER);
@@ -135,7 +135,7 @@ void drawMain() {
     nodes.get(currentLink).display();
     popMatrix();
   }
-  fade = get(0, 0, width, height);
+//  fade = get(0, 0, width, height);
 
   textFont(font);
   loadNewPhrase.draw();
