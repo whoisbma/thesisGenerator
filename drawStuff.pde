@@ -155,4 +155,3 @@ void displayAll() {  //for testing
     text(string, 700, 60+i*25);
   }
 } 
-

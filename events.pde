@@ -4,14 +4,16 @@ void keyPressed() {
     if (key == '\n') {  //enter key
       linkingWord = typing;
       typing = "";
-      if ( oldWords != null ) {
-        String[] newWords = new String[oldWords.length+1];
-        for (int i = 0; i < oldWords.length; i++) {
-          newWords[i] = oldWords[i];
+      if ( oldWords != null) {
+        if (linkingWord != "") {
+          String[] newWords = new String[oldWords.length+1];
+          for (int i = 0; i < oldWords.length; i++) {
+            newWords[i] = oldWords[i];
+          }
+          newWords[newWords.length-1] = linkingWord;
+          oldWords = newWords;
+          saveStrings("data/NEWWORDS.txt", newWords);
         }
-        newWords[newWords.length-1] = linkingWord;
-        oldWords = newWords;
-        saveStrings("data/NEWWORDS.txt", newWords);
       } else {
         oldWords[0] = linkingWord;
         println(oldWords[0]);
