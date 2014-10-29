@@ -97,14 +97,18 @@ void mousePressed() {
     if (addNode.visible && addNode.isPressed()) {           
       //tintColor = color(random(150, 240), random(150, 240), random(150, 240), 200);
       for (Node otherNode : nodes) {    //make sure the node doesn't already exist
-        if (wordToAdd == otherNode.text) {      
+        println("is " + wordToAdd + " the same as " + otherNode.text + "?");
+        if (wordToAdd.equals(otherNode.text)) {      
+          println("yes");
           repeatedNode = true;
-          println(wordToAdd + " has already been entered");
-          break;
+          println(wordToAdd + " has already been entered, same as " + otherNode.text);
+          //break;
         }
       }
       Node newNode = new Node(wordToAdd);
+      println("repeatedNode: " +repeatedNode);
       if (repeatedNode == false) {
+        println("no");
         if (nodes.size() > 0) {      // make sure there's a parent node       
           (nodes.get(currentParent)).nodeNodes.add(newNode);
           println("add new node as child node of parent node");
@@ -133,9 +137,8 @@ void mousePressed() {
           }
         }
       }
-      
+      repeatedNode = false;
     }
-    repeatedNode = false;
   } else if (mode == 1) {  //MAP MODE
     if (showMap.isPressed()) {
       mode = 0;
@@ -148,17 +151,17 @@ void mousePressed() {
     if (saveMap.isPressed()) {
       record = true;
     }
-//    for (Node node : nodes) {     //for potentially adding connections in map mode, not sure its necessary/good idea
-//      if (node.canDelete == true && node.isPressed() == false) {
-//        for (Node otherNode : nodes) {
-//          if (node != otherNode) {
-//            if (otherNode.rMousePressed()) {
-//              println("right mouse pressed");
-//            }
-//          }
-//        }
-//      }
-//    }
+    //    for (Node node : nodes) {     //for potentially adding connections in map mode, not sure its necessary/good idea
+    //      if (node.canDelete == true && node.isPressed() == false) {
+    //        for (Node otherNode : nodes) {
+    //          if (node != otherNode) {
+    //            if (otherNode.rMousePressed()) {
+    //              println("right mouse pressed");
+    //            }
+    //          }
+    //        }
+    //      }
+    //    }
     for (Node node : nodes) {
       if (node.isPressed()) {
         break;

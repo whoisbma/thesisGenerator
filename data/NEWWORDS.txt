@@ -1,10 +1,5 @@
-control
-cybernetics
-deny
-broken
-game
-pathos
-game
-game
-change
-body
+vector
+the sacred
+mortality
+buttons
+faith

@@ -172,17 +172,19 @@ void drawMain() {
   text("type: ", 30, height-105);
   fill(255);
   text(typing, 125, height-105);
+  
+  
 }
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 void drawMap() {
+  if (record) {
+      beginRecord(PDF, "frame-####.pdf");
+    }
   pushMatrix(); 
   if (mode == 1) {
     background(250);
     saveMap.visible = true;
-    if (record) {
-      beginRecord(PDF, "frame-####.pdf");
-    }
     //currentParent = 0;
   } else {
     saveMap.visible = false;
