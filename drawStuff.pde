@@ -4,40 +4,45 @@ void drawSentence() {
   //4, 5 - adjective
   //6 - interface
   //7 - dataSource
-  //textSize(40); 
   textFont(fontL);
   textAlign(LEFT, TOP);
   fill(255);
   switch (whichText) {
   case 0 : 
-    text(currentMix[5] + " " + currentMix[6] + " expressing the "  + "\n " +
+    newSentence = currentMix[5] + " " + currentMix[6] + " expressing the "  + "\n " +
       currentMix[4] + " " + currentMix[1] + " of "  + "\n "
-      + currentMix[2] + " with " + currentMix[0], 50, 70); 
+      + currentMix[2] + " with " + currentMix[0];
+    text(newSentence, 50, 70);
     break;
   case 1 : 
-    text(currentMix[0] + " " + currentMix[1], 50, 70); 
+    newSentence = currentMix[0] + " " + currentMix[1];
+    text(newSentence, 50, 70);
     break;
-  case 2 : 
-    text(currentMix[2] + " that serves to " + currentMix[3] + " " + currentMix[1], 50, 70); 
+  case 2 :
+    newSentence = currentMix[2] + " that serves to " + currentMix[3] + " " + currentMix[1];
+    text(newSentence, 50, 70);
     break;
   case 3 : 
-    text(currentMix[3] + " " + currentMix[0] + " by searching " + "\n " + currentMix[7], 50, 70); 
+    newSentence = currentMix[3] + " " + currentMix[0] + " by searching " + "\n " + currentMix[7];
+    text(newSentence, 50, 70);
     break;
   case 4 : 
-    text(currentMix[6] + " made of " + currentMix[4] + " " + currentMix[0], 50, 70); 
+    newSentence = currentMix[6] + " made of " + currentMix[4] + " " + currentMix[0];
+    text(newSentence, 50, 70);
     break;
   case 5 : 
-    text(currentMix[4] + " " + currentMix[0] + " juxtaposed with " + "\n " +
-      currentMix[5] + " " + currentMix[1], 50, 70); 
+    newSentence = currentMix[4] + " " + currentMix[0] + " juxtaposed with " + "\n " +
+      currentMix[5] + " " + currentMix[1];
+    text(newSentence, 50, 70);
     break;
   case 6 : 
-    text(currentMix[5] + " " + currentMix[0] + " to " + currentMix[3], 50, 70); 
+    newSentence = currentMix[5] + " " + currentMix[0] + " to " + currentMix[3];
+    text(newSentence, 50, 70);
     break;
   }
 }
 
 void drawButtons() {
-  //textSize(20); 
   textFont(fontS);
   switch (whichText) {
   case 0 : 
@@ -155,3 +160,17 @@ void displayAll() {  //for testing
     text(string, 700, 60+i*25);
   }
 } 
+
+void displaySentences() { 
+  textFont(fontXS);
+  for (int i = sentences.size()-1; i >= 0; i--) {
+  //for (int i = 0; i < sentences.size(); i++) {
+    fill(100-(i * 10));
+    textAlign(RIGHT, TOP);
+    text(sentences.get(i), width-100, 70+i*60);
+  }
+  if (sentences.size() > 3) {
+    sentences.remove(sentences.get(0));
+  }
+}
+

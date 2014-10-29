@@ -21,8 +21,18 @@ public class Button {
       rectMode(CORNER);
       noStroke();
       fill(35);
-      rect(x-size/2,y-10, size, 25);
+      rect(x-size/2,y-10, size, 20);
     }
+    if (sizeMod == 17 && mode == 0) {
+      rectMode(CORNER);
+      noStroke();
+      if (mouseX > x-size/2 && mouseX < x+size/2 && mouseY > y-10 && mouseY < y+20) {
+        fill(100);
+      } else {
+        fill(35);
+      }
+      rect(x-size/2-5,y-15, size+10,35);
+    } 
     if (mode == 0) {
       if (mouseX > x-size/2 && mouseX < x+size/2 && mouseY > y-10 && mouseY < y+20) {
         //    if (dist(x, y, mouseX, mouseY) < size) {
@@ -32,7 +42,6 @@ public class Button {
       }
     } else {
       if (mouseX > x-size/2 && mouseX < x+size/2 && mouseY > y-10 && mouseY < y+20) {
-        //    if (dist(x, y, mouseX, mouseY) < size) {
         fill(0);
       } else {
         fill(100);

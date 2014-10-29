@@ -23,6 +23,8 @@ int whichText = 1;
 
 String[] oldWords;
 
+ArrayList<String> sentences;
+
 ArrayList<Node> nodes; 
 
 float dragY;
@@ -33,6 +35,8 @@ boolean record = false;
 boolean repeatedNode = false; 
 
 boolean movingNode = false;
+
+String newSentence = new String("");
 
 PFont font;
 PFont fontS;
@@ -77,13 +81,15 @@ void setup() {
   interfaces = new ArrayList<String>(); 
   dataSources = new ArrayList<String>(); 
 
+  sentences = new ArrayList<String>(); 
+
   oldWords = loadStrings("NEWWORDS.txt");
 
   cursor(CROSS);
 
   showMap = new Button("map", width-250, height-60, 17);
   loadNewPhrase = new Button("start", width-100, height-60, 17);
-  addNode = new Button("add node: ", 120, height-60, 17);
+  addNode = new Button("add node:", 120, height-60, 17);
   saveMap = new Button("save", width-100, height-60, 17); 
   deleteNode = new Button("delete", 120, height-60, 17);
   cycleNodes = new Button("cycle nodes", width-440, height-60, 17);
@@ -142,8 +148,8 @@ void drawMain() {
   textFont(font);
   fill(255);
   textAlign(LEFT, CENTER);
-  text(wordToAdd, 200, height-60);
-
+  text(wordToAdd, 210, height-60);
+  displaySentences();
   drawSentence();
 
   //  fade = get(0, 0, width, height);
@@ -267,7 +273,7 @@ void checkFrameResize() {
   if (width != prevWidth || height != prevHeight) {
     showMap = new Button(showMap.text, width-250, height-60, 17);
     loadNewPhrase = new Button(loadNewPhrase.text, width-100, height-60, 17);
-    addNode = new Button("add node: ", 120, height-60, 17);
+    addNode = new Button("add node:", 120, height-60, 17);
     saveMap = new Button("save", width-100, height-60, 17); 
     deleteNode = new Button("delete", 120, height-60, 17);
     cycleNodes = new Button("cycle nodes", width-440, height-60, 17);

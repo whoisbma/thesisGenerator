@@ -26,7 +26,7 @@ void keyPressed() {
     } else if (key != CODED && key != ESC) {
       typing = typing + key;
     } else if (key == CODED) {
-      if (keyCode == UP) {
+      if (keyCode == UP && nodes.size() > 0) {
         if (currentParent > 0) {
           currentParent--; 
           println(currentParent);
@@ -38,7 +38,7 @@ void keyPressed() {
           dragY = (height/2)/mapZoomScale - nodes.get(currentParent).pos.y;
         }
       } 
-      if (keyCode == DOWN) {
+      if (keyCode == DOWN && nodes.size() > 0) {
         if (currentParent < nodes.size()-1) {
           currentParent++;
           println(currentParent);
@@ -63,6 +63,7 @@ void mousePressed() {
       whichText = (int)random(7);
       currentMix = getTopic();
       loadNewPhrase.text = "another";
+      sentences.add(newSentence);
     }
     if (cycleNodes.isPressed() && nodes.size() > 1) {
       if (currentParent > 0) {
