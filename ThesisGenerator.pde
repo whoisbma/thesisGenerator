@@ -70,7 +70,7 @@ int prevHeight;
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 void setup() {
-  size(1250, 800, P2D);
+  size(1250, 800);
   if (frame != null) {
     frame.setResizable(true);
   }
@@ -257,7 +257,7 @@ void removeNodes() {
     if (node.deleted == true) {
       for (Node otherNode : nodes) {        //this part might be fucked up aka WTF
         for (int j = 0; j < otherNode.nodeNodes.size (); j++) {
-          if (otherNode.nodeNodes.get(j).text == node.text) {
+          if (otherNode.nodeNodes.get(j).equals(node.text)) {//   otherNode.nodeNodes.get(j).text == node.text  ){
             otherNode.nodeNodes.remove(j);
             otherNode.currentNodeNodes--;
           }
@@ -278,7 +278,6 @@ void checkFrameResize() {
     deleteNode = new Button("delete", 120, height-60, 17);
     cycleNodes = new Button("cycle nodes", width-440, height-60, 17);
 
-
     float startX = 100;
     float div = (width-(startX/2))/texts.length;
     texts[0] = new Button(texts[0].text, startX, height-150, 10);
@@ -294,4 +293,3 @@ void checkFrameResize() {
   prevWidth = width;
   prevHeight = height;
 }
-
