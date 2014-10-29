@@ -23,7 +23,7 @@ void keyPressed() {
         String newString = typing.substring(0, max(0, typing.length()-1));
         typing = newString;
       }
-    } else if (key != CODED) {
+    } else if (key != CODED && key != ESC) {
       typing = typing + key;
     } else if (key == CODED) {
       if (keyCode == UP) {
@@ -51,6 +51,9 @@ void keyPressed() {
         }
       }
     }
+  }
+  if (key == ESC) {
+    key = 0;  // should add a help menu or something
   }
 } 
 
