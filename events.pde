@@ -2,23 +2,23 @@
 void keyPressed() {
   if (mode == 0) {
     if (key == '\n') {  //enter key
-      linkingWord = typing;
+      wordToAdd = typing;
       typing = "";
       if ( oldWords != null) {
-        if (linkingWord != "") {
+        if (wordToAdd != "") {
           String[] newWords = new String[oldWords.length+1];
           for (int i = 0; i < oldWords.length; i++) {
             newWords[i] = oldWords[i];
           }
-          newWords[newWords.length-1] = linkingWord;
+          newWords[newWords.length-1] = wordToAdd;
           oldWords = newWords;
           saveStrings("data/NEWWORDS.txt", newWords);
         }
       } else {
-        oldWords[0] = linkingWord;
+        oldWords[0] = wordToAdd;
         println(oldWords[0]);
       }
-    } else if (int(key) == 8) {
+    } else if (int(key) == 8) {  //backspace
       if (typing != "") {
         String newString = typing.substring(0, max(0, typing.length()-1));
         typing = newString;
@@ -27,19 +27,27 @@ void keyPressed() {
       typing = typing + key;
     } else if (key == CODED) {
       if (keyCode == UP) {
-        if (currentLink > 0) {
-          currentLink--; 
-          println(currentLink);
+        if (currentParent > 0) {
+          currentParent--; 
+          println(currentParent);
         } else {
-          currentLink = nodes.size()-1;
+          currentParent = nodes.size()-1;
+        }
+        if (mode == 0) {
+          dragX = (width/2)/mapZoomScale - nodes.get(currentParent).pos.x;
+          dragY = (height/2)/mapZoomScale - nodes.get(currentParent).pos.y;
         }
       } 
       if (keyCode == DOWN) {
-        if (currentLink < nodes.size()-1) {
-          currentLink++;
-          println(currentLink);
+        if (currentParent < nodes.size()-1) {
+          currentParent++;
+          println(currentParent);
         } else {
-          currentLink = 0;
+          currentParent = 0;
+        }
+        if (mode == 0) {
+          dragX = (width/2)/mapZoomScale - nodes.get(currentParent).pos.x;
+          dragY = (height/2)/mapZoomScale - nodes.get(currentParent).pos.y;
         }
       }
     }
@@ -56,32 +64,38 @@ void mousePressed() {
     if (showMap.isPressed()) {
       mode = 1;
       showMap.text = "close map";
+      dragX = (width/2) - nodes.get(currentParent).pos.x;
+      dragY = (height/2) - nodes.get(currentParent).pos.y;
+      dragFollow.x = (width/2) - nodes.get(currentParent).pos.x;
+      dragFollow.y = (height/2) - nodes.get(currentParent).pos.y;
     }
     for (int i = 0; i < texts.length; i++) {
       if (texts[i].isPressed() && texts[i].visible) {
-        linkingWord = texts[i].text;
+        wordToAdd = texts[i].text;
       }
     }
     if (addNode.visible && addNode.isPressed()) {           
       //tintColor = color(random(150, 240), random(150, 240), random(150, 240), 200);
-      Node newNode = new Node(linkingWord);
+      Node newNode = new Node(wordToAdd);
       for (Node otherNode : nodes) {    //make sure the node doesn't already exist
         if (otherNode.text == newNode.text) {      
           repeatedNode = true;
-          println(linkingWord + " has already been entered");
+          println(wordToAdd + " has already been entered" + " in " + otherNode.text);
         }
       }
       if (!repeatedNode) {
         if (nodes.size() > 0) {      // make sure there's a parent node       
-          (nodes.get(currentLink)).nodeNodes.add(newNode);
+          (nodes.get(currentParent)).nodeNodes.add(newNode);
           println("add new node as child node of parent node");
-          (nodes.get(currentLink)).currentNodeNodes++;    
-          println("new subnode count for this parent " + (nodes.get(currentLink)).currentNodeNodes);
-          newNode.pos = new PVector(nodes.get(currentLink).pos.x+random(30, 70), nodes.get(currentLink).pos.y+random(-50, 50)) ;
+          (nodes.get(currentParent)).currentNodeNodes++;    
+          println("new subnode count for this parent " + (nodes.get(currentParent)).currentNodeNodes);
+          newNode.pos = new PVector(nodes.get(currentParent).pos.x+random(30, 70), nodes.get(currentParent).pos.y+random(-50, 50)) ;
         }
 
         nodes.add(newNode);    //add new node to node collection
-        currentLink = nodes.size()-1;
+        dragX = (width/2)/mapZoomScale - newNode.pos.x;
+        dragY = (height/2)/mapZoomScale - newNode.pos.y;
+        currentParent = nodes.size()-1;
         for (int i = 0; i < nodes.size (); i++) {
           Node node = nodes.get(i);
           println(node.text);
@@ -90,9 +104,9 @@ void mousePressed() {
       } else {
         for (Node otherNode : nodes) {    //find the other node named the thing - probably could be written better**
           if (otherNode.text == newNode.text) {
-            if (!otherNode.nodeNodes.contains(nodes.get(currentLink))) {  //not sure if this is working the way i want it to - trying to prevent multiple lines from being drawn over one another, etc.
+            if (!otherNode.nodeNodes.contains(nodes.get(currentParent))) {  //not sure if this is working the way i want it to - trying to prevent multiple lines from being drawn over one another, etc.
               otherNode.currentNodeNodes++;
-              otherNode.nodeNodes.add(nodes.get(currentLink));
+              otherNode.nodeNodes.add(nodes.get(currentParent));
               println("added the other node? othernode.currentNodeNodes: " + otherNode.currentNodeNodes);
             }
           }
@@ -105,6 +119,10 @@ void mousePressed() {
     if (showMap.isPressed()) {
       mode = 0;
       showMap.text = "map";
+      dragX = (width/2)/mapZoomScale - nodes.get(currentParent).pos.x;
+      dragY = (height/2)/mapZoomScale - nodes.get(currentParent).pos.y;
+      dragFollow.x = (width/2)/mapZoomScale - nodes.get(currentParent).pos.x;
+      dragFollow.y = (height/2)/mapZoomScale - nodes.get(currentParent).pos.y;
     }
     if (saveMap.isPressed()) {
       record = true;

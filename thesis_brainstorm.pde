@@ -17,8 +17,8 @@ BufferedReader reader;
 String loadLine; 
 String[] currentMix = new String[8];
 String typing = "";
-String linkingWord = "";
-int currentLink = 0; 
+String wordToAdd = "";
+int currentParent = 0; 
 int whichText = 1; 
 
 String[] oldWords;
@@ -46,13 +46,16 @@ Button saveMap;
 Button deleteNode;
 Button[] texts = new Button[8];
 
+float mapZoomScale = 3;
+PVector dragFollow = new PVector(0, 0);
+
 PImage fade;
 float rWidth;
 float rHeight;
 float rWidthMod;
 float rHeightMod; 
 
-color tintColor = color(200, 159, 50, 230);
+//color tintColor = color(200, 159, 50, 230);
 
 int mode = 0;
 
@@ -119,13 +122,13 @@ void draw() {
 ////////////////////////////////////////////////////////
 void drawMain() {
   background(10);
-  if (nodes.size() > 0) {
-    textAlign(CENTER, CENTER);
-    textFont(fontL);
-    textSize(150); 
-    fill(255, 15);
-    text(nodes.get(currentLink).text, width/2, height/2);
-  }
+  //  if (nodes.size() > 0) {
+  //    textAlign(CENTER, CENTER);
+  //    textFont(fontL);
+  //    textSize(150); 
+  //    fill(255, 15);
+  //    text(nodes.get(currentParent).text, width/2, height/2);
+  //  }
 
   //  tint(tintColor);
   //  image(fade, 0, 1, width, height);
@@ -135,21 +138,23 @@ void drawMain() {
   textFont(font);
   fill(255, 50);
   textAlign(LEFT, CENTER);
-  text(linkingWord, 200, 740);
+  text(wordToAdd, 200, 740);
 
   drawSentence();
-  if (nodes.size() > 0) {
-    pushMatrix();
-    translate(dragX, dragY);
-    popMatrix();
-  }
+  //  if (nodes.size() > 0) {
+  //    pushMatrix();
+  //    if (drag == true) {
+  //      translate(dragX, dragY);
+  //    }
+  //    popMatrix();
+  //  }
   //  fade = get(0, 0, width, height);
 
   textFont(font);
   loadNewPhrase.draw();
   showMap.draw();
 
-  if (linkingWord != "") {
+  if (wordToAdd != "") {
     addNode.draw();
     addNode.visible = true;
   } else {
@@ -167,25 +172,44 @@ void drawMain() {
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 void drawMap() {
+  pushMatrix(); 
   if (mode == 1) {
     background(250);
     saveMap.visible = true;
     if (record) {
       beginRecord(PDF, "frame-####.pdf");
     }
-    currentLink = 0;
+    //currentParent = 0;
   } else {
-    
     saveMap.visible = false;
     deleteNode.visible = false;
+    scale(mapZoomScale);
   }
   if (drag == true && movingNode == false) {
-    dragY += mouseY-pmouseY;
-    dragX += mouseX-pmouseX;
+    if (mode == 0) {
+      dragFollow.x += (mouseX-pmouseX) / mapZoomScale;
+      dragFollow.y += (mouseY-pmouseY) / mapZoomScale;
+      dragX += (mouseX-pmouseX) / mapZoomScale;
+      dragY += (mouseY-pmouseY) / mapZoomScale;
+    } else {
+      dragX += mouseX-pmouseX;
+      dragY += mouseY-pmouseY;
+      dragFollow.x += mouseX-pmouseX;
+      dragFollow.y += mouseY-pmouseY;
+    }
   }
-  
+
   pushMatrix();
-  translate(dragX, dragY);
+
+  //  if (drag == true) {
+  //    translate(dragX, dragY);
+  //  } else {
+  translate(dragFollow.x, dragFollow.y);
+  //  }
+
+  dragFollow.x += (dragX - dragFollow.x) * 0.1;
+  dragFollow.y += (dragY - dragFollow.y) * 0.1;
+
   for (Node node : nodes) {
     node.update();
     node.displayLines();
@@ -197,12 +221,14 @@ void drawMap() {
     }
   }
   popMatrix();
-  
+  popMatrix();
+  //  text("dragX : " + dragX,100,height/2 - 15);
+  //  text("dragY : " + dragY,100,height/2 + 15);
   if (record) {
     record = false;
     endRecord();
   }
-  
+
   textAlign(CENTER);
   textFont(font);
   showMap.draw();
@@ -212,17 +238,17 @@ void drawMap() {
   if (deleteNode.visible) {
     deleteNode.draw();
   }
-  
+
   drag = false;
   removeNodes();
 } 
 
 void removeNodes() {
-  for (int i = 0; i < nodes.size(); i++) {  
+  for (int i = 0; i < nodes.size (); i++) {  
     Node node = nodes.get(i);
     if (node.deleted == true) {
       for (Node otherNode : nodes) {        //this part might be fucked up aka WTF
-        for (int j = 0; j < otherNode.nodeNodes.size(); j++) {
+        for (int j = 0; j < otherNode.nodeNodes.size (); j++) {
           if (otherNode.nodeNodes.get(j).text == node.text) {
             otherNode.nodeNodes.remove(j);
             otherNode.currentNodeNodes--;
@@ -230,6 +256,8 @@ void removeNodes() {
         }
       }
       nodes.remove(i);
+      currentParent = 0; 
     }
   }
 } 
+

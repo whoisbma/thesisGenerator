@@ -31,7 +31,7 @@ public class Node {
         pos.y += escape.y * 1.1;
       }
     }
-    if (isPressed() && mode == 1) {
+    if (isPressed() && mode == 1 && movingNode == false) {
       movingNode = true;
       moving = true;
       if (nodes.size() > 0) {
@@ -44,6 +44,15 @@ public class Node {
     if (movingNode == true && moving == true) {
       pos.x = mouseX-dragX; 
       pos.y = mouseY-dragY;
+      for (Node childNode : nodeNodes) {
+        float distance = dist(pos.x, pos.y, childNode.pos.x, childNode.pos.y);
+        if (distance > ((r + childNode.r)/2)-3) {
+          PVector dir = new PVector(pos.x - childNode.pos.x, pos.y - childNode.pos.y);
+          dir.normalize();
+          childNode.pos.x += dir.x * .5;
+          childNode.pos.y += dir.y * .5;
+        }
+      }
     }
     if (canDelete == true) {
       if (keyPressed) {
@@ -68,10 +77,10 @@ public class Node {
         if (otherNode == childNode) {
           float distance = dist(pos.x, pos.y, otherNode.pos.x, otherNode.pos.y);
           if (mode == 0) {
-            float c = map(distance, 100, width, 80, 10);
-            stroke(c);
+            float c = map(distance, 100, 700, 80, 10);
+            stroke(c,90);
           } else {
-            float c = map(distance, 100, width, 150, 250);
+            float c = map(distance, 100, 700, 150, 250);
             stroke(c);
           }
           line(pos.x, pos.y, otherNode.pos.x, otherNode.pos.y);
@@ -87,10 +96,10 @@ public class Node {
       rectMode(CENTER);
       rect(pos.x, pos.y+1, text.length() * 7.5, 14);
       //ellipse(pos.x, pos.y, circleR, circleR);
-      if (text == nodes.get(currentLink).text) {
-        fill(255);
+      if (text == nodes.get(currentParent).text) {
+        fill(255,90);
       } else {
-        fill(100);
+        fill(100,90);
       }
     } else {
       if (!isPressed()) {
@@ -127,3 +136,4 @@ public class Node {
     return false;
   }
 }
+
