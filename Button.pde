@@ -43,7 +43,7 @@ public class Button {
   } 
 
   public boolean isPressed() {
-    if (mouseX > x-size/2 && mouseX < x+size/2 && mouseY > y-10 && mouseY < y+20) {
+    if (mouseX > x-size/2 && mouseX < x+size/2 && mouseY > y-10 && mouseY < y+20 && mouseButton == LEFT) {
       //if (dist(x, y, mouseX, mouseY) < size) {
       return true;
     }

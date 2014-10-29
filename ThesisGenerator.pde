@@ -140,7 +140,7 @@ void drawMain() {
   drawMap();
 
   textFont(font);
-  fill(255, 50);
+  fill(255);
   textAlign(LEFT, CENTER);
   text(wordToAdd, 200, height-60);
 

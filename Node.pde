@@ -6,7 +6,6 @@ public class Node {
   int currentNodeNodes;
   PVector pos;
   int r; 
-  int circleR = 26;
   boolean selected = false; 
   boolean moving = false;
   boolean canDelete = false;
@@ -95,7 +94,6 @@ public class Node {
       noStroke();
       rectMode(CENTER);
       rect(pos.x, pos.y+1, text.length() * 7.5, 14);
-      //ellipse(pos.x, pos.y, circleR, circleR);
       if (text == nodes.get(currentParent).text) {
         fill(255, 90);
       } else {
@@ -108,7 +106,6 @@ public class Node {
         fill(210);
       }
       noStroke();
-      //ellipse(pos.x, pos.y, circleR, circleR);
       rectMode(CENTER);
       rect(pos.x, pos.y+1, text.length() * 7.5, 14); 
       if (canDelete && !isPressed()) {
@@ -116,7 +113,6 @@ public class Node {
         //stroke(150);
         fill(230);
         rect(pos.x, pos.y+1, text.length() * 7.5, 14);
-        //ellipse(pos.x, pos.y, circleR-2, circleR-2);
       }
       fill(0);
     }
@@ -126,11 +122,18 @@ public class Node {
   }
 
   public boolean isPressed() {
-    //float d = dist(mouseX, mouseY, pos.x+dragX, pos.y+dragY);
-    //  if (d < circleR * 0.5 && mousePressed) {
     if ( mouseX > pos.x+dragX-(text.length() * 7.5)/2 && mouseX < pos.x+dragX+(text.length() * 7.5)/2 &&
       mouseY > pos.y+dragY+1 - 14/2 && mouseY < pos.y+dragY+1 + 14/2 && 
-      mousePressed) {
+      mousePressed && mouseButton == LEFT) {
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean rMousePressed() {
+    if ( mouseX > pos.x+dragX-(text.length() * 7.5)/2 && mouseX < pos.x+dragX+(text.length() * 7.5)/2 &&
+      mouseY > pos.y+dragY+1 - 14/2 && mouseY < pos.y+dragY+1 + 14/2 && 
+      mousePressed && mouseButton == RIGHT) {
       return true;
     }
     return false;

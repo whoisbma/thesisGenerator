@@ -73,8 +73,6 @@ void mousePressed() {
         dragY = (height/2)/mapZoomScale - nodes.get(currentParent).pos.y;
       }
     }  
-
-
     if (showMap.isPressed() && showMap.visible) {
       mode = 1;
       showMap.text = "close map";
@@ -98,14 +96,15 @@ void mousePressed() {
     }
     if (addNode.visible && addNode.isPressed()) {           
       //tintColor = color(random(150, 240), random(150, 240), random(150, 240), 200);
-      Node newNode = new Node(wordToAdd);
       for (Node otherNode : nodes) {    //make sure the node doesn't already exist
-        if (otherNode.text == newNode.text) {      
+        if (wordToAdd == otherNode.text) {      
           repeatedNode = true;
-          println(wordToAdd + " has already been entered" + " in " + otherNode.text);
+          println(wordToAdd + " has already been entered");
+          break;
         }
       }
-      if (!repeatedNode) {
+      Node newNode = new Node(wordToAdd);
+      if (repeatedNode == false) {
         if (nodes.size() > 0) {      // make sure there's a parent node       
           (nodes.get(currentParent)).nodeNodes.add(newNode);
           println("add new node as child node of parent node");
@@ -133,10 +132,10 @@ void mousePressed() {
             }
           }
         }
-        //add the current to the nodeNodes of the previously linked one
       }
-      repeatedNode = false;
+      
     }
+    repeatedNode = false;
   } else if (mode == 1) {  //MAP MODE
     if (showMap.isPressed()) {
       mode = 0;
@@ -149,6 +148,17 @@ void mousePressed() {
     if (saveMap.isPressed()) {
       record = true;
     }
+//    for (Node node : nodes) {     //for potentially adding connections in map mode, not sure its necessary/good idea
+//      if (node.canDelete == true && node.isPressed() == false) {
+//        for (Node otherNode : nodes) {
+//          if (node != otherNode) {
+//            if (otherNode.rMousePressed()) {
+//              println("right mouse pressed");
+//            }
+//          }
+//        }
+//      }
+//    }
     for (Node node : nodes) {
       if (node.isPressed()) {
         break;
