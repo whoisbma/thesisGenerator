@@ -64,10 +64,18 @@ void mousePressed() {
     if (showMap.isPressed()) {
       mode = 1;
       showMap.text = "close map";
-      dragX = (width/2) - nodes.get(currentParent).pos.x;
-      dragY = (height/2) - nodes.get(currentParent).pos.y;
-      dragFollow.x = (width/2) - nodes.get(currentParent).pos.x;
-      dragFollow.y = (height/2) - nodes.get(currentParent).pos.y;
+      float avgPosX = 0;
+      float avgPosY = 0;
+      for (Node node : nodes) {
+        avgPosX += node.pos.x;
+        avgPosY += node.pos.y;
+      }
+      avgPosX = avgPosX / nodes.size();
+      avgPosY = avgPosY / nodes.size();
+      dragX = (width/2)- avgPosX;
+      dragY = (height/2) - avgPosY;
+      dragFollow.x = (width/2) - avgPosX;
+      dragFollow.y = (height/2) - avgPosY;
     }
     for (int i = 0; i < texts.length; i++) {
       if (texts[i].isPressed() && texts[i].visible) {
