@@ -3,15 +3,27 @@ narrative
 bacteria
 antibiotics
 time
+index
+pattern
 ecstasy
+signal
 communication
 meditation
+sign
 consciousness
 divinity
 emergence
+post-indexical
+pheremone
+animal
+shadow
+reptile brain
 ghost
 childhood
+artificial index
+meaning
 object
+icon
 electricity
 interactivity
 black holes
@@ -64,7 +76,7 @@ wetware
 life form
 mask
 dream world
-metaphysis
+metaphysics
 perfection
 tides
 snail trails

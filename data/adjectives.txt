@@ -38,6 +38,7 @@ procedural
 pointless
 sublime
 dark
+biological
 insubstantial
 invisible
 atavistic
@@ -46,10 +47,14 @@ visible
 external
 deterministic
 fetishistic
+natural
+unnatural
 ephemeral
 tangible
 intangible
 linear
+collective
+individual
 non-linear
 profane
 native

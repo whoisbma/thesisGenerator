@@ -1,7 +1,7 @@
 
 void keyPressed() {
   if (mode == 0) {
-    if (key == '\n') {
+    if (key == '\n') {  //enter key
       linkingWord = typing;
       typing = "";
       if ( oldWords != null ) {
@@ -57,7 +57,7 @@ void mousePressed() {
       }
     }
     if (addNode.visible && addNode.isPressed()) {           
-      tintColor = color(random(150, 240), random(150, 240), random(150, 240), 200);
+      //tintColor = color(random(150, 240), random(150, 240), random(150, 240), 200);
       Node newNode = new Node(linkingWord);
       for (Node otherNode : nodes) {    //make sure the node doesn't already exist
         if (otherNode.text == newNode.text) {      
@@ -84,16 +84,18 @@ void mousePressed() {
       } else {
         for (Node otherNode : nodes) {    //find the other node named the thing - probably could be written better**
           if (otherNode.text == newNode.text) {
-            otherNode.currentNodeNodes++;
-            otherNode.nodeNodes.add(nodes.get(currentLink));
-            println("added the other node? maybe?");
+            if (!otherNode.nodeNodes.contains(nodes.get(currentLink))) {  //not sure if this is working the way i want it to - trying to prevent multiple lines from being drawn over one another, etc.
+              otherNode.currentNodeNodes++;
+              otherNode.nodeNodes.add(nodes.get(currentLink));
+              println("added the other node? othernode.currentNodeNodes: " + otherNode.currentNodeNodes);
+            }
           }
         }
         //add the current to the nodeNodes of the previously linked one
       }
       repeatedNode = false;
     }
-  } else if (mode == 1) {
+  } else if (mode == 1) {  //MAP MODE
     if (showMap.isPressed()) {
       mode = 0;
       showMap.text = "map";
@@ -101,10 +103,26 @@ void mousePressed() {
     if (saveMap.isPressed()) {
       record = true;
     }
+    for (Node node : nodes) {
+      if (node.isPressed()) {
+        break;
+      }
+      if (!deleteNode.isPressed()) {
+        deleteNode.visible = false;
+        node.canDelete = false;
+      }
+    }
   }
 }
 
 void mouseDragged() {
   drag = true;
 } 
+
+void mouseReleased() {
+  movingNode = false;
+  for (Node node : nodes) {
+    node.moving = false;
+  }
+}
 

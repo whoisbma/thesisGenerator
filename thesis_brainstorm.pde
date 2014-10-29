@@ -32,6 +32,8 @@ boolean record = false;
 
 boolean repeatedNode = false; 
 
+boolean movingNode = false;
+
 PFont font;
 PFont fontS;
 PFont fontXS;
@@ -41,6 +43,7 @@ Button loadNewPhrase;
 Button showMap;
 Button addNode; 
 Button saveMap;
+Button deleteNode;
 Button[] texts = new Button[8];
 
 PImage fade;
@@ -56,7 +59,7 @@ int mode = 0;
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 void setup() {
-  size(1250, 600);//, P3D);
+  size(1250, 800);//, P3D);
   background(10); 
   nouns = new ArrayList<String>(); 
   adjectives = new ArrayList<String>(); 
@@ -65,21 +68,23 @@ void setup() {
   dataSources = new ArrayList<String>(); 
 
   oldWords = loadStrings("NEWWORDS.txt");
-  
 
-  showMap = new Button("map", 1000, 540);
-  loadNewPhrase = new Button("start", 1150, 540);
-  addNode = new Button("add node: ", 120, 540);
-  saveMap = new Button("save", 1150, 540); 
+  cursor(CROSS);
 
-  texts[0] = new Button(" ", 100, 450);
-  texts[1] = new Button(" ", 250, 450);
-  texts[2] = new Button(" ", 400, 450);
-  texts[3] = new Button(" ", 550, 450);
-  texts[4] = new Button(" ", 700, 450);
-  texts[5] = new Button(" ", 850, 450);
-  texts[6] = new Button(" ", 1000, 450);
-  texts[7] = new Button(" ", 1150, 450);
+  showMap = new Button("map", 1000, 740, 17);
+  loadNewPhrase = new Button("start", 1150, 740, 17);
+  addNode = new Button("add node: ", 120, 740, 17);
+  saveMap = new Button("save", 1150, 740, 17); 
+  deleteNode = new Button("delete", 120, 740, 17);
+
+  texts[0] = new Button(" ", 100, 650, 10);
+  texts[1] = new Button(" ", 250, 650, 10);
+  texts[2] = new Button(" ", 400, 650, 10);
+  texts[3] = new Button(" ", 550, 650, 10);
+  texts[4] = new Button(" ", 700, 650, 10);
+  texts[5] = new Button(" ", 850, 650, 10);
+  texts[6] = new Button(" ", 1000, 650, 10);
+  texts[7] = new Button(" ", 1150, 650, 10);
 
   nodes = new ArrayList<Node>(); 
 
@@ -113,29 +118,32 @@ void draw() {
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 void drawMain() {
-  drawMap();
+  background(10);
   if (nodes.size() > 0) {
     textAlign(CENTER, CENTER);
     textFont(fontL);
     textSize(150); 
-    fill(255, 40);
+    fill(255, 15);
     text(nodes.get(currentLink).text, width/2, height/2);
   }
 
-//  tint(tintColor);
-//  image(fade, 0, 1, width, height);
+  //  tint(tintColor);
+  //  image(fade, 0, 1, width, height);
+
+  drawMap();
+
   textFont(font);
   fill(255, 50);
   textAlign(LEFT, CENTER);
-  text(linkingWord, 200, 540);
+  text(linkingWord, 200, 740);
+
   drawSentence();
   if (nodes.size() > 0) {
     pushMatrix();
     translate(dragX, dragY);
-    nodes.get(currentLink).display();
     popMatrix();
   }
-//  fade = get(0, 0, width, height);
+  //  fade = get(0, 0, width, height);
 
   textFont(font);
   loadNewPhrase.draw();
@@ -152,9 +160,9 @@ void drawMain() {
   textAlign(LEFT, CENTER);
   textFont(font);
   fill(255, 100);
-  text("type: ", 30, 495);
+  text("type: ", 30, 695);
   fill(255);
-  text(typing, 125, 495);
+  text(typing, 125, 695);
 }
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -165,31 +173,64 @@ void drawMap() {
     if (record) {
       beginRecord(PDF, "frame-####.pdf");
     }
+    currentLink = 0;
   } else {
-    background(10);
+    
     saveMap.visible = false;
+    deleteNode.visible = false;
   }
-  if (drag == true) {
+  if (drag == true && movingNode == false) {
     dragY += mouseY-pmouseY;
     dragX += mouseX-pmouseX;
   }
+  
   pushMatrix();
   translate(dragX, dragY);
-
   for (Node node : nodes) {
-    node.display();
+    node.update();
+    node.displayLines();
+  }
+  for (Node node : nodes) {
+    node.displayText();
+    if (node.canDelete == true) {
+      deleteNode.visible = true;
+    }
   }
   popMatrix();
+  
   if (record) {
     record = false;
     endRecord();
   }
+  
   textAlign(CENTER);
   textFont(font);
   showMap.draw();
   if (saveMap.visible) {
     saveMap.draw();
   }
+  if (deleteNode.visible) {
+    deleteNode.draw();
+  }
+  
   drag = false;
+  removeNodes();
+} 
+
+void removeNodes() {
+  for (int i = 0; i < nodes.size(); i++) {  
+    Node node = nodes.get(i);
+    if (node.deleted == true) {
+      for (Node otherNode : nodes) {        //this part might be fucked up aka WTF
+        for (int j = 0; j < otherNode.nodeNodes.size(); j++) {
+          if (otherNode.nodeNodes.get(j).text == node.text) {
+            otherNode.nodeNodes.remove(j);
+            otherNode.currentNodeNodes--;
+          }
+        }
+      }
+      nodes.remove(i);
+    }
+  }
 } 
 
