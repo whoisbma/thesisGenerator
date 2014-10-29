@@ -42,6 +42,7 @@ biological
 insubstantial
 invisible
 atavistic
+ambiguous
 vulnerable
 visible
 external

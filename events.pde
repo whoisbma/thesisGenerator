@@ -61,7 +61,21 @@ void mousePressed() {
       currentMix = getTopic();
       loadNewPhrase.text = "another";
     }
-    if (showMap.isPressed()) {
+    if (cycleNodes.isPressed() && nodes.size() > 1) {
+      if (currentParent > 0) {
+        currentParent--; 
+        println(currentParent);
+      } else {
+        currentParent = nodes.size()-1;
+      }
+      if (mode == 0) {
+        dragX = (width/2)/mapZoomScale - nodes.get(currentParent).pos.x;
+        dragY = (height/2)/mapZoomScale - nodes.get(currentParent).pos.y;
+      }
+    }  
+
+
+    if (showMap.isPressed() && showMap.visible) {
       mode = 1;
       showMap.text = "close map";
       float avgPosX = 0;

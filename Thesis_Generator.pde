@@ -44,6 +44,7 @@ Button showMap;
 Button addNode; 
 Button saveMap;
 Button deleteNode;
+Button cycleNodes;
 Button[] texts = new Button[8];
 
 float mapZoomScale = 3;
@@ -59,10 +60,16 @@ float rHeightMod;
 
 int mode = 0;
 
+int prevWidth;
+int prevHeight;
+
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 void setup() {
-  size(1250, 800);//, P3D);
+  size(1250, 800);
+  if (frame != null) {
+    frame.setResizable(true);
+  }
   background(10); 
   nouns = new ArrayList<String>(); 
   adjectives = new ArrayList<String>(); 
@@ -74,20 +81,24 @@ void setup() {
 
   cursor(CROSS);
 
-  showMap = new Button("map", 1000, 740, 17);
-  loadNewPhrase = new Button("start", 1150, 740, 17);
-  addNode = new Button("add node: ", 120, 740, 17);
-  saveMap = new Button("save", 1150, 740, 17); 
-  deleteNode = new Button("delete", 120, 740, 17);
+  showMap = new Button("map", width-250, height-60, 17);
+  loadNewPhrase = new Button("start", width-100, height-60, 17);
+  addNode = new Button("add node: ", 120, height-60, 17);
+  saveMap = new Button("save", width-100, height-60, 17); 
+  deleteNode = new Button("delete", 120, height-60, 17);
+  cycleNodes = new Button("cycle nodes", width-440, height-60, 17);
 
-  texts[0] = new Button("", 100, 650, 10);
-  texts[1] = new Button("", 250, 650, 10);
-  texts[2] = new Button("", 400, 650, 10);
-  texts[3] = new Button("", 550, 650, 10);
-  texts[4] = new Button("", 700, 650, 10);
-  texts[5] = new Button("", 850, 650, 10);
-  texts[6] = new Button("", 1000, 650, 10);
-  texts[7] = new Button("", 1150, 650, 10);
+
+  float startX = 100;
+  float div = (width-(startX/2))/texts.length;
+  texts[0] = new Button("", startX, height-150, 10);
+  texts[1] = new Button("", startX+div*1, height-150, 10);
+  texts[2] = new Button("", startX+div*2, height-150, 10);
+  texts[3] = new Button("", startX+div*3, height-150, 10);
+  texts[4] = new Button("", startX+div*4, height-150, 10);
+  texts[5] = new Button("", startX+div*5, height-150, 10);
+  texts[6] = new Button("", startX+div*6, height-150, 10);
+  texts[7] = new Button("", startX+div*7, height-150, 10);
 
   nodes = new ArrayList<Node>(); 
 
@@ -102,11 +113,11 @@ void setup() {
   }
   loadFromAll();
 
-  rWidthMod = 1;
-  rHeightMod = .995;
-  rWidth = width * rWidthMod; 
-  rHeight = height * rHeightMod;
-  fade = get(0, 0, width, height);
+  //  rWidthMod = 1;
+  //  rHeightMod = .995;
+  //  rWidth = width * rWidthMod; 
+  //  rHeight = height * rHeightMod;
+  //  fade = get(0, 0, width, height);
 }
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -117,19 +128,12 @@ void draw() {
   } else if (mode == 1) {
     drawMap();
   }
+  checkFrameResize();
 }
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 void drawMain() {
   background(10);
-  //  if (nodes.size() > 0) {
-  //    textAlign(CENTER, CENTER);
-  //    textFont(fontL);
-  //    textSize(150); 
-  //    fill(255, 15);
-  //    text(nodes.get(currentParent).text, width/2, height/2);
-  //  }
-
   //  tint(tintColor);
   //  image(fade, 0, 1, width, height);
 
@@ -138,22 +142,22 @@ void drawMain() {
   textFont(font);
   fill(255, 50);
   textAlign(LEFT, CENTER);
-  text(wordToAdd, 200, 740);
+  text(wordToAdd, 200, height-60);
 
   drawSentence();
-  //  if (nodes.size() > 0) {
-  //    pushMatrix();
-  //    if (drag == true) {
-  //      translate(dragX, dragY);
-  //    }
-  //    popMatrix();
-  //  }
+
   //  fade = get(0, 0, width, height);
 
   textFont(font);
   loadNewPhrase.draw();
-  showMap.draw();
 
+  if (nodes.size() > 1) {
+    cycleNodes.draw();
+    showMap.draw();
+    showMap.visible = true;
+  } else {
+    showMap.visible = false;
+  }
   if (wordToAdd != "") {
     addNode.draw();
     addNode.visible = true;
@@ -165,9 +169,9 @@ void drawMain() {
   textAlign(LEFT, CENTER);
   textFont(font);
   fill(255, 100);
-  text("type: ", 30, 695);
+  text("type: ", 30, height-105);
   fill(255);
-  text(typing, 125, 695);
+  text(typing, 125, height-105);
 }
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
@@ -200,13 +204,7 @@ void drawMap() {
   }
 
   pushMatrix();
-
-  //  if (drag == true) {
-  //    translate(dragX, dragY);
-  //  } else {
   translate(dragFollow.x, dragFollow.y);
-  //  }
-
   dragFollow.x += (dragX - dragFollow.x) * 0.1;
   dragFollow.y += (dragY - dragFollow.y) * 0.1;
 
@@ -231,7 +229,9 @@ void drawMap() {
 
   textAlign(CENTER);
   textFont(font);
-  showMap.draw();
+  if (mode == 1) {
+    showMap.draw();
+  }
   if (saveMap.visible) {
     saveMap.draw();
   }
@@ -256,8 +256,34 @@ void removeNodes() {
         }
       }
       nodes.remove(i);
-      currentParent = 0; 
+      currentParent = 0;
     }
   }
 } 
+
+void checkFrameResize() {
+  if (width != prevWidth || height != prevHeight) {
+    showMap = new Button(showMap.text, width-250, height-60, 17);
+    loadNewPhrase = new Button(loadNewPhrase.text, width-100, height-60, 17);
+    addNode = new Button("add node: ", 120, height-60, 17);
+    saveMap = new Button("save", width-100, height-60, 17); 
+    deleteNode = new Button("delete", 120, height-60, 17);
+    cycleNodes = new Button("cycle nodes", width-440, height-60, 17);
+
+
+    float startX = 100;
+    float div = (width-(startX/2))/texts.length;
+    texts[0] = new Button(texts[0].text, startX, height-150, 10);
+    texts[1] = new Button(texts[1].text, startX+div*1, height-150, 10);
+    texts[2] = new Button(texts[2].text, startX+div*2, height-150, 10);
+    texts[3] = new Button(texts[3].text, startX+div*3, height-150, 10);
+    texts[4] = new Button(texts[4].text, startX+div*4, height-150, 10);
+    texts[5] = new Button(texts[5].text, startX+div*5, height-150, 10);
+    texts[6] = new Button(texts[6].text, startX+div*6, height-150, 10);
+    texts[7] = new Button(texts[7].text, startX+div*7, height-150, 10);
+  } 
+
+  prevWidth = width;
+  prevHeight = height;
+}
 

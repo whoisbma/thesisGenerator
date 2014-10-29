@@ -78,7 +78,7 @@ public class Node {
           float distance = dist(pos.x, pos.y, otherNode.pos.x, otherNode.pos.y);
           if (mode == 0) {
             float c = map(distance, 100, 700, 80, 10);
-            stroke(c,90);
+            stroke(c, 90);
           } else {
             float c = map(distance, 100, 700, 150, 250);
             stroke(c);
@@ -97,9 +97,9 @@ public class Node {
       rect(pos.x, pos.y+1, text.length() * 7.5, 14);
       //ellipse(pos.x, pos.y, circleR, circleR);
       if (text == nodes.get(currentParent).text) {
-        fill(255,90);
+        fill(255, 90);
       } else {
-        fill(100,90);
+        fill(100, 90);
       }
     } else {
       if (!isPressed()) {
