@@ -17,6 +17,12 @@ public class Button {
 
   public void draw() { 
     size = text.length() * sizeMod;
+    if (sizeMod == 10) {
+      rectMode(CORNER);
+      noStroke();
+      fill(35);
+      rect(x-size/2,y-10, size, 25);
+    }
     if (mode == 0) {
       if (mouseX > x-size/2 && mouseX < x+size/2 && mouseY > y-10 && mouseY < y+20) {
         //    if (dist(x, y, mouseX, mouseY) < size) {

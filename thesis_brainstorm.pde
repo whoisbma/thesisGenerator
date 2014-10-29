@@ -77,14 +77,14 @@ void setup() {
   saveMap = new Button("save", 1150, 740, 17); 
   deleteNode = new Button("delete", 120, 740, 17);
 
-  texts[0] = new Button(" ", 100, 650, 10);
-  texts[1] = new Button(" ", 250, 650, 10);
-  texts[2] = new Button(" ", 400, 650, 10);
-  texts[3] = new Button(" ", 550, 650, 10);
-  texts[4] = new Button(" ", 700, 650, 10);
-  texts[5] = new Button(" ", 850, 650, 10);
-  texts[6] = new Button(" ", 1000, 650, 10);
-  texts[7] = new Button(" ", 1150, 650, 10);
+  texts[0] = new Button("", 100, 650, 10);
+  texts[1] = new Button("", 250, 650, 10);
+  texts[2] = new Button("", 400, 650, 10);
+  texts[3] = new Button("", 550, 650, 10);
+  texts[4] = new Button("", 700, 650, 10);
+  texts[5] = new Button("", 850, 650, 10);
+  texts[6] = new Button("", 1000, 650, 10);
+  texts[7] = new Button("", 1150, 650, 10);
 
   nodes = new ArrayList<Node>(); 
 

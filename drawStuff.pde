@@ -12,26 +12,26 @@ void drawSentence() {
   case 0 : 
     text(currentMix[5] + " " + currentMix[6] + " expressing the "  + "\n " +
       currentMix[4] + " " + currentMix[1] + " of "  + "\n "
-      + currentMix[2] + " with " + currentMix[0], 60, 70); 
+      + currentMix[2] + " with " + currentMix[0], 50, 70); 
     break;
   case 1 : 
-    text(currentMix[0] + " " + currentMix[1], 60, 70); 
+    text(currentMix[0] + " " + currentMix[1], 50, 70); 
     break;
   case 2 : 
-    text(currentMix[2] + " that serves to " + currentMix[3] + " " + currentMix[1], 60, 70); 
+    text(currentMix[2] + " that serves to " + currentMix[3] + " " + currentMix[1], 50, 70); 
     break;
   case 3 : 
-    text(currentMix[3] + " " + currentMix[0] + " by searching " + "\n " + currentMix[7], 60, 70); 
+    text(currentMix[3] + " " + currentMix[0] + " by searching " + "\n " + currentMix[7], 50, 70); 
     break;
   case 4 : 
-    text(currentMix[6] + " made of " + currentMix[4] + " " + currentMix[0], 60, 70); 
+    text(currentMix[6] + " made of " + currentMix[4] + " " + currentMix[0], 50, 70); 
     break;
   case 5 : 
     text(currentMix[4] + " " + currentMix[0] + " juxtaposed with " + "\n " +
-      currentMix[5] + " " + currentMix[1], 60, 70); 
+      currentMix[5] + " " + currentMix[1], 50, 70); 
     break;
   case 6 : 
-    text(currentMix[5] + " " + currentMix[0] + " to " + currentMix[3], 60, 70); 
+    text(currentMix[5] + " " + currentMix[0] + " to " + currentMix[3], 50, 70); 
     break;
   }
 }

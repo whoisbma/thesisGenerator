@@ -30,12 +30,16 @@ void keyPressed() {
         if (currentLink > 0) {
           currentLink--; 
           println(currentLink);
+        } else {
+          currentLink = nodes.size()-1;
         }
       } 
       if (keyCode == DOWN) {
         if (currentLink < nodes.size()-1) {
           currentLink++;
           println(currentLink);
+        } else {
+          currentLink = 0;
         }
       }
     }
