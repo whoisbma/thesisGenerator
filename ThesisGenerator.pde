@@ -54,6 +54,8 @@ Button[] texts = new Button[8];
 float mapZoomScale = 3;
 PVector dragFollow = new PVector(0, 0);
 
+//String nodeSentence = new String(); 
+
 PImage fade;
 float rWidth;
 float rHeight;
@@ -178,20 +180,21 @@ void drawMain() {
   text("type: ", 30, height-105);
   fill(255);
   text(typing, 125, height-105);
-  
-  
 }
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 void drawMap() {
   if (record) {
-      beginRecord(PDF, "frame-####.pdf");
-    }
+    beginRecord(PDF, "frame-####.pdf");
+  }
   pushMatrix(); 
   if (mode == 1) {
     background(250);
     saveMap.visible = true;
     //currentParent = 0;
+//    fill(0);
+//    textAlign(LEFT, TOP);
+//    text(nodeSentence, 50, 100);
   } else {
     saveMap.visible = false;
     deleteNode.visible = false;
@@ -289,7 +292,103 @@ void checkFrameResize() {
     texts[6] = new Button(texts[6].text, startX+div*6, height-150, 10);
     texts[7] = new Button(texts[7].text, startX+div*7, height-150, 10);
   } 
-
   prevWidth = width;
   prevHeight = height;
 }
+
+/*
+void generateNodeSentence() {
+  String[] highPNodes = new String[nodes.size()];
+  String[] midPNodes = new String[nodes.size()];
+  String[] lowPNodes = new String[nodes.size()];
+  String[] onePNode = new String[nodes.size()];
+  int highIndex = 0; 
+  int midIndex = 0;
+  int lowIndex = 0;
+  int oneIndex = 0;
+  for (Node node : nodes) {
+    if (node.nodeNodes.size() > 5) {
+      println("thats a lot of nodes for " + node.text + " guy");
+      highPNodes[highIndex] = node.text;
+      highIndex++;
+    } else if (node.nodeNodes.size() > 3 && node.nodeNodes.size() <= 4) {
+      println("thats a few nodes for " + node.text + " guy");
+      midPNodes[midIndex] = node.text;
+      midIndex++;
+    } else if (node.nodeNodes.size() > 1 && node.nodeNodes.size() <= 3) {
+      println("thats a couple of nodes for " + node.text + " guy");
+      lowPNodes[lowIndex] = node.text;
+      lowIndex++;
+    } else if (node.nodeNodes.size() > 0 && node.nodeNodes.size() <= 1) {
+      println("thats one node for " + node.text + " guy");
+      onePNode[oneIndex] = node.text;
+      oneIndex++;
+    } 
+  }
+  
+  String[] articles = {" of ", " the ", " by ", " for ", " with "};
+  
+  if (highIndex > 1 && midIndex > 0 && lowIndex > 0 && oneIndex > 0) {
+    nodeSentence = 
+                    highPNodes[(int)random(highIndex)] + articles[(int)random(5)] + 
+                    highPNodes[(int)random(highIndex)] + articles[(int)random(5)] + 
+                    midPNodes[(int)random(midIndex)];
+  } else if (highIndex > 0 && midIndex > 1 && lowIndex > 0 && oneIndex > 0) {
+    nodeSentence = 
+                    highPNodes[(int)random(highIndex)] + articles[(int)random(5)] + 
+                    midPNodes[(int)random(midIndex)] + articles[(int)random(5)] +
+                     midPNodes[(int)random(midIndex)];
+  } else if (highIndex > 0 && midIndex > 0 && lowIndex > 1 && oneIndex > 0) {
+    nodeSentence = 
+                   highPNodes[(int)random(highIndex)] + articles[(int)random(5)] + 
+                    midPNodes[(int)random(midIndex)] + articles[(int)random(5)] + 
+                     lowPNodes[(int)random(lowIndex)];
+  } else if (highIndex == 0 && midIndex > 0 && lowIndex > 0 && oneIndex > 0) {
+    nodeSentence = 
+                   midPNodes[(int)random(midIndex)] + articles[(int)random(5)] + 
+                    lowPNodes[(int)random(lowIndex)] + articles[(int)random(5)] + 
+                     onePNode[(int)random(oneIndex)];
+  } else if (highIndex == 0 && midIndex > 1 && lowIndex > 0 && oneIndex > 0) {
+    nodeSentence = 
+                   midPNodes[(int)random(midIndex)] + articles[(int)random(5)] + 
+                    midPNodes[(int)random(midIndex)] + articles[(int)random(5)] + 
+                     lowPNodes[(int)random(lowIndex)];
+  }  else if (highIndex == 0 && midIndex == 0 && lowIndex > 1 && oneIndex > 0) {
+    nodeSentence = 
+                   lowPNodes[(int)random(lowIndex)] + articles[(int)random(5)] + 
+                    lowPNodes[(int)random(lowIndex)] + articles[(int)random(5)] + 
+                     onePNode[(int)random(oneIndex)];
+  } else if (highIndex == 0 && midIndex == 0 && lowIndex > 0 && oneIndex > 1) {
+    nodeSentence = 
+                   lowPNodes[(int)random(lowIndex)] + articles[(int)random(5)] + 
+                    onePNode[(int)random(oneIndex)] + articles[(int)random(5)] + 
+                     onePNode[(int)random(oneIndex)];
+  } else if (highIndex == 0 && midIndex == 0 && lowIndex == 0 && oneIndex > 2) {
+    nodeSentence = 
+                   onePNode[(int)random(oneIndex)] + articles[(int)random(5)] + 
+                    onePNode[(int)random(oneIndex)] + articles[(int)random(5)] + 
+                     onePNode[(int)random(oneIndex)];
+  } else {
+    nodeSentence = "";
+    println("no sentence for you");
+  }
+  println("high indices:");
+  for (int i = 0; i < highIndex; i++) {
+    println(highPNodes[i]);
+  }
+  println("mid indices:");
+  for (int i = 0; i < midIndex; i++) {
+    println(midPNodes[i]);
+  }
+  println("low indices:");
+  for (int i = 0; i < lowIndex; i++) {
+    println(lowPNodes[i]);
+  }
+  println("one index:");
+  for (int i = 0; i < oneIndex; i++) {
+    println(onePNode[i]);
+  }
+ 
+  println("node sentence generated:" + nodeSentence);
+} */
+

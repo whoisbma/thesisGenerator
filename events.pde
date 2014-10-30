@@ -37,7 +37,7 @@ void keyPressed() {
           dragX = (width/2)/mapZoomScale - nodes.get(currentParent).pos.x;
           dragY = (height/2)/mapZoomScale - nodes.get(currentParent).pos.y;
         }
-      } 
+      }
       if (keyCode == DOWN && nodes.size() > 0) {
         if (currentParent < nodes.size()-1) {
           currentParent++;
@@ -79,6 +79,7 @@ void mousePressed() {
     }  
     if (showMap.isPressed() && showMap.visible) {
       mode = 1;
+      //generateNodeSentence();
       showMap.text = "close map";
       float avgPosX = 0;
       float avgPosY = 0;
@@ -132,12 +133,17 @@ void mousePressed() {
         println(" ");
       } else {
         for (Node otherNode : nodes) {    //find the other node named the thing - probably could be written better**
-          if (otherNode.text == newNode.text) {
+          if (otherNode.text.equals(newNode.text)) {//     otherNode.text == newNode.text) {
             if (!otherNode.nodeNodes.contains(nodes.get(currentParent))) {  //not sure if this is working the way i want it to - trying to prevent multiple lines from being drawn over one another, etc.
               otherNode.currentNodeNodes++;
               otherNode.nodeNodes.add(nodes.get(currentParent));
               println("added the other node? othernode.currentNodeNodes: " + otherNode.currentNodeNodes);
-            }
+            }// else if (!nodes.get(currentParent).nodeNodes.contains(otherNode)) {
+              //there might be some problem with this... i had trouble adding a node after deleting some stuff before
+              //this was an attempt to resolve it
+//              otherNode.currentNodeNodes++;
+//              otherNode.nodeNodes.add(nodes.get(currentParent));
+           // } 
           }
         }
       }
@@ -146,6 +152,7 @@ void mousePressed() {
   } else if (mode == 1) {  //MAP MODE
     if (showMap.isPressed()) {
       mode = 0;
+      //nodeSentence = "";
       showMap.text = "map";
       dragX = (width/2)/mapZoomScale - nodes.get(currentParent).pos.x;
       dragY = (height/2)/mapZoomScale - nodes.get(currentParent).pos.y;
@@ -155,6 +162,7 @@ void mousePressed() {
     if (saveMap.isPressed()) {
       record = true;
     }
+    
     //    for (Node node : nodes) {     //for potentially adding connections in map mode, not sure its necessary/good idea
     //      if (node.canDelete == true && node.isPressed() == false) {
     //        for (Node otherNode : nodes) {
@@ -166,6 +174,7 @@ void mousePressed() {
     //        }
     //      }
     //    }
+    
     for (Node node : nodes) {
       if (node.isPressed()) {
         break;

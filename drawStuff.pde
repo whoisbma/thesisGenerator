@@ -165,7 +165,7 @@ void displaySentences() {
   textFont(fontXS);
   for (int i = sentences.size()-1; i >= 0; i--) {
   //for (int i = 0; i < sentences.size(); i++) {
-    fill(100-(i * 10));
+    fill(100+(i * 30));
     textAlign(RIGHT, TOP);
     text(sentences.get(i), width-100, 70+i*60);
   }
